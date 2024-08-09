@@ -1,5 +1,5 @@
-import { InputBase, Button } from "@mui/material"
-import styles from './Search.module.sass'
+import { InputBase, Button } from "@mui/material";
+import styles from './Search.module.sass';
 
 const Search = () => {
   return (
@@ -17,6 +17,6 @@ const Search = () => {
       </Button>
     </form>
   )
-}
+};
 
-export default Search
+export default Search;
