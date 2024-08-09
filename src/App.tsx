@@ -1,19 +1,31 @@
-import { AppBar, Container, TextField, Toolbar } from '@mui/material'
-import './App.css'
+import { AppBar, Container, createTheme, ThemeProvider, Toolbar } from '@mui/material'
+import Search from './components/Search/Search';
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#2196F3',
+    },
+    background: {
+      default: '#00838F',
+    }
+  },
+});
 
 function App() {
 
   return (
-    <>
-      <AppBar position='static'>
+    <ThemeProvider theme={ theme }>
+      <AppBar position='fixed' sx={{ backgroundColor: theme.palette.background.default }}>
         <Container maxWidth='xl'>
-          <Toolbar disableGutters>
-            <TextField label='Введите поисковый запрос' variant='outlined' />
+          <Toolbar>
+            <Search />
           </Toolbar>
         </Container>
       </AppBar>
 
-    </>
+    </ThemeProvider>
   )
 }
 
