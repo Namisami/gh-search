@@ -5,10 +5,6 @@ const theme = createTheme({
     primary: {
       main: '#2196F3',
     },
-    background: {
-      default: '#00838F',
-      paper: '#4F4F4F',
-    }
   },
   components: {
     MuiContainer: {
@@ -17,7 +13,7 @@ const theme = createTheme({
           padding: '0 32px !important',
         }
       }
-    }
+    },
   }
 });
 

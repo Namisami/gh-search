@@ -1,16 +1,15 @@
-import { AppBar, Container, Toolbar, Box, useTheme } from '@mui/material';
+import { AppBar, Container, Toolbar, Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import Search from '../../components/Search/Search';
 import styles from './Layout.module.sass';
 
-const Layout = () => {
-  const theme = useTheme();
-  
+const Layout = () => {  
   return (
     <>
       <AppBar 
         position='static' 
-        sx={{ backgroundColor: theme.palette.background.default }}
+        sx={{ backgroundColor: '#00838F' }}
+        elevation={ 0 }
       >
         <Container maxWidth='xl'>
           <Toolbar disableGutters>
@@ -18,9 +17,9 @@ const Layout = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Container className={ styles.main } maxWidth='xl'>
+      <main className={ styles.main }>
         <Outlet />
-      </Container>
+      </main>
       <Box className={ styles.footer }/>
     </>
   )
