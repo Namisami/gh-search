@@ -1,8 +1,9 @@
 import { Box, Container, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useSelector } from 'react-redux';
-import { Repository, selectRepositories } from '../../store/reducers/RepositoryReducer';
+import { Repository, selectRepositories, selectRepositoriesError, selectRepositoriesLoading } from '../../store/reducers/RepositoryReducer';
 import styles from './Results.module.sass';
+import Error from '../../components/Error/Error';
 
 const columns: GridColDef<(Repository[])[number]>[] = [
   { 
@@ -36,11 +37,16 @@ const columns: GridColDef<(Repository[])[number]>[] = [
     headerName: 'Дата обновления',
     flex: 1,
     disableColumnMenu: true,
+    valueGetter: (value) => `${new Date(value).toLocaleDateString()}`
   },
 ];
 
 const Results = () => {
   const repositories = useSelector(selectRepositories);
+  const loading = useSelector(selectRepositoriesLoading);
+  const error = useSelector(selectRepositoriesError);
+
+  if (error) return <Error message={ error } />
 
   return (
     <div className={ styles.results }>
@@ -57,6 +63,7 @@ const Results = () => {
         </Typography>
         <div>
           <DataGrid 
+            loading={loading}
             rows={repositories}
             columns={columns}
             initialState={{
