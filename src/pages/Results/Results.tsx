@@ -37,9 +37,10 @@ const columns: GridColDef<(Repository[])[number]>[] = [
   {
     field: 'updated_at',
     headerName: 'Дата обновления',
+    type: "date",
     flex: 1,
     disableColumnMenu: true,
-    valueGetter: (value) => `${new Date(value).toLocaleDateString()}`
+    valueGetter: (value) => new Date(value)
   },
 ];
 
