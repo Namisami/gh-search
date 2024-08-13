@@ -1,26 +1,32 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
+
+export interface Licence {
+  name: string
+}
 
 export interface Repository {
   id: number
   full_name: string
   stargazers_count: number
   forks_count: number
-  language: string
+  language?: string
   topics: string[]
-  license: string
+  license: Licence
   updated_at: string
 }
 
 export interface RepositoryInitialState {
   repositories: Repository[]
+  currentRepository: Repository | null
   loading: boolean
   error: string | null
 }
 
 const initialState: RepositoryInitialState = {
   repositories: [],
+  currentRepository: null,
   loading: false,
   error: "",
 } satisfies RepositoryInitialState as RepositoryInitialState;
@@ -41,6 +47,9 @@ const repositorySlice = createSlice({
   name: 'repository',
   initialState,
   reducers: {
+    setCurrentRepository: (state, action: PayloadAction<Repository>) => {
+      state.currentRepository = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -62,6 +71,9 @@ const repositorySlice = createSlice({
 
 export default repositorySlice.reducer;
 
+export const { setCurrentRepository } = repositorySlice.actions;
+
 export const selectRepositories = (state: RootState) => state.repositories.repositories;
 export const selectRepositoriesLoading = (state: RootState) => state.repositories.loading;
 export const selectRepositoriesError = (state: RootState) => state.repositories.error;
+export const selectCurrentRepository = (state: RootState) => state.repositories.currentRepository;

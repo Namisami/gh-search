@@ -1,9 +1,11 @@
-import { Box, Container, Typography } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Container, Typography } from '@mui/material';
+import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
 import { useSelector } from 'react-redux';
-import { Repository, selectRepositories, selectRepositoriesError, selectRepositoriesLoading } from '../../store/reducers/RepositoryReducer';
-import styles from './Results.module.sass';
+import { useAppDispatch } from '../../store/store';
+import { Repository, selectCurrentRepository, selectRepositories, selectRepositoriesError, selectRepositoriesLoading, setCurrentRepository } from '../../store/reducers/RepositoryReducer';
 import Error from '../../components/Error/Error';
+import RepositoryCard from '../../components/RepositoryCard/RepositoryCard';
+import styles from './Results.module.sass';
 
 const columns: GridColDef<(Repository[])[number]>[] = [
   { 
@@ -45,8 +47,15 @@ const Results = () => {
   const repositories = useSelector(selectRepositories);
   const loading = useSelector(selectRepositoriesLoading);
   const error = useSelector(selectRepositoriesError);
+  const currentRepository = useSelector(selectCurrentRepository);
+
+  const dispatch = useAppDispatch();
 
   if (error) return <Error message={ error } />
+
+  const onRepositorySelect = (params: GridRowParams) => {
+    dispatch(setCurrentRepository(params.row));
+  }
 
   return (
     <div className={ styles.results }>
@@ -83,16 +92,15 @@ const Results = () => {
             }}
             pageSizeOptions={[10]}
             disableColumnResize
+            onRowClick={ onRepositorySelect }
           />
 
         </div>
       </Container>
-      <Box 
+      <RepositoryCard 
         className={ styles.currentRepository }
-        sx={{ backgroundColor: "#F2F2F2" }}
-      >
-
-      </Box>
+        repository={ currentRepository }
+      />
     </div>
   )
 };
