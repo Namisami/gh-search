@@ -1,10 +1,12 @@
 import { Box, Container, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { useSelector } from 'react-redux';
+import { Repository, selectRepositories } from '../../store/reducers/RepositoryReducer';
 import styles from './Results.module.sass';
 
-const columns: GridColDef<(typeof rows)[number]>[] = [
+const columns: GridColDef<(Repository[])[number]>[] = [
   { 
-    field: 'name', 
+    field: 'full_name', 
     headerName: 'Название',
     flex: 1, 
     sortable: false,
@@ -18,40 +20,28 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     disableColumnMenu: true,
   },
   {
-    field: 'forks',
+    field: 'forks_count',
     headerName: 'Число форков',
     flex: 1,
     disableColumnMenu: true,
   },
   {
-    field: 'start',
+    field: 'stargazers_count',
     headerName: 'Число звезд',
     flex: 1,
     disableColumnMenu: true,
   },
   {
-    field: 'date_update',
+    field: 'updated_at',
     headerName: 'Дата обновления',
     flex: 1,
     disableColumnMenu: true,
   },
 ];
 
-const rows = [
-  { id: 1, name: "Название репозитория", language: "Python", forks: 9, start: 36, date_update: '00:00:0000'},
-  { id: 2, name: "Название репозитория", language: "Python", forks: 8, start: 36, date_update: '00:00:0000'},
-  { id: 3, name: "Название репозитория", language: "Python", forks: 8, start: 36, date_update: '00:00:0000'},
-  { id: 4, name: "Название репозитория", language: "Python", forks: 8, start: 36, date_update: '00:00:0000'},
-  { id: 5, name: "Название репозитория", language: "Python", forks: 8, start: 36, date_update: '00:00:0000'},
-  { id: 6, name: "Название репозитория", language: "Python", forks: 8, start: 36, date_update: '00:00:0000'},
-  { id: 7, name: "Название репозитория", language: "Python", forks: 8, start: 36, date_update: '00:00:0000'},
-  { id: 8, name: "Название репозитория", language: "Python", forks: 8, start: 36, date_update: '00:00:0000'},
-  { id: 9, name: "Название репозитория", language: "Python", forks: 8, start: 36, date_update: '00:00:0000'},
-  { id: 10, name: "Название репозитория", language: "Python", forks: 8, start: 36, date_update: '00:00:0000'},
-  { id: 11, name: "Название репозитория", language: "Python", forks: 8, start: 36, date_update: '00:00:0000'},
-];
-
 const Results = () => {
+  const repositories = useSelector(selectRepositories);
+
   return (
     <div className={ styles.results }>
       <Container 
@@ -67,7 +57,7 @@ const Results = () => {
         </Typography>
         <div>
           <DataGrid 
-            rows={rows}
+            rows={repositories}
             columns={columns}
             initialState={{
               pagination: {
@@ -77,6 +67,9 @@ const Results = () => {
               },
             }}
             sx={{
+              '&.MuiDataGrid-root': {
+                border: 'none',
+              },
               '& .MuiDataGrid-columnHeaderTitle': {
                 fontWeight: 'bold',
               }
